@@ -2,6 +2,7 @@ const express = require('express');
 const router  = express.Router();
 
 const Booking = require("./../models/booking.model");
+const Subscription = require("./../models/subscription.model");
 
 /* POST and receive data from booking form */
 router.post('/', (req, res, next) => {
@@ -52,5 +53,22 @@ router.post('/', (req, res, next) => {
     })
     .catch((err) => console.log(err));
 });
+
+/* POST and receive data from subscription forms */
+router.post("/subscribe", (req, res, next) => {
+  const { name, email } = req.body;
+
+  const dataOBJ = {
+    name: name,
+    email: email
+  }
+
+  Subscription.create(dataOBJ)
+    .then((newSubscription) => {
+      console.log(`New booking created: ${newSubscription}`);
+      res.sendStatus(200);
+    })
+    .catch((err) => console.log(err));
+})
 
 module.exports = router;

@@ -3,6 +3,7 @@ const router  = express.Router();
 
 const Booking = require("./../models/booking.model");
 const Subscription = require("./../models/subscription.model");
+const Resource = require("./../models/resources.model");
 
 /* POST and receive data from booking form */
 router.post('/', (req, res, next) => {
@@ -65,7 +66,24 @@ router.post("/subscribe", (req, res, next) => {
 
   Subscription.create(dataOBJ)
     .then((newSubscription) => {
-      console.log(`New booking created: ${newSubscription}`);
+      console.log(`New subscription created: ${newSubscription}`);
+      res.sendStatus(200);
+    })
+    .catch((err) => console.log(err));
+})
+
+/* POST and receive data from external resources access forms */
+router.post("/access-resource", (req, res, next) => {
+  const { name, email } = req.body;
+
+  const dataOBJ = {
+    name: name,
+    email: email
+  }
+
+  Resource.create(dataOBJ)
+    .then((newVisitor) => {
+      console.log(`New user has accessed external resources: ${newVisitor}`);
       res.sendStatus(200);
     })
     .catch((err) => console.log(err));

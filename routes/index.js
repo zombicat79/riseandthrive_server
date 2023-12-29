@@ -89,4 +89,19 @@ router.post("/access-resource", (req, res, next) => {
     .catch((err) => console.log(err));
 })
 
+/* GET and search for particular emails in the subscriptions collection */
+router.get("/subscribe/:email", (req, res, next) => {
+  const { email } = req.params;
+
+  Subscription.find({"email": email})
+    .then((foundEntry) => {
+      if (foundEntry.length !== 0) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => console.log(err));
+})
+
 module.exports = router;
